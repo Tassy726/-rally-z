@@ -1,6 +1,11 @@
 namespace SpriteKind {
     export const Map = SpriteKind.create()
 }
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, location) {
+    music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
+    info.changeScoreBy(10)
+    tiles.setTileAt(location, sprites.castle.tilePath5)
+})
 let myMinimap: minimap.Minimap = null
 let mySprite = sprites.create(img`
     . . . . . . e e c c e e . . . . 
@@ -149,7 +154,7 @@ forever(function () {
         MapSprite.setImage(minimap.getImage(myMinimap))
     }
     MapSprite.setPosition(scene.cameraProperty(CameraProperty.X) + 60, scene.cameraProperty(CameraProperty.Y))
-})
-game.onUpdateInterval(100, function () {
-	
+    if (info.score() == 70) {
+        game.gameOver(true)
+    }
 })
